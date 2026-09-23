@@ -1,5 +1,6 @@
 package com.seemless
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -28,10 +29,11 @@ class MainActivity : AppCompatActivity() {
         progressBar.isIndeterminate = true
         progressBar.visibility = ProgressBar.GONE
 
-        val modelFile = File(getExternalFilesDir(null), "translategemma-4b-it.Q4_K_M.gguf")
+        val modelFile = File(getExternalFilesDir(null), "model.gguf")
 
         if (!modelFile.exists()) {
-            tvResult.text = "❌ Model file not found:\n${modelFile.absolutePath}"
+            val intent = Intent(this, SetupActivity::class.java)
+            startActivity(intent)
             return
         }
 

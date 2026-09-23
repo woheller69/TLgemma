@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">TLgemma</string>
+    <string name="download_model">Download model</string>
+    <string name="install_model">Install model</string>
+    <string name="start">Start</string>
 
 </resources>

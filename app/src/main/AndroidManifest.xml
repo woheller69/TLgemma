@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:largeHeap="true"
         android:theme="@style/Theme.TFLiteAudio">
+        <activity android:name=".SetupActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+            android:exported="true">
+        </activity>
+
         <activity android:name="com.seemless.MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
