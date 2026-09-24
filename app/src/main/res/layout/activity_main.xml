@@ -13,14 +13,6 @@
         android:padding="16dp"
         tools:context="com.seemless.MainActivity">
 
-        <!-- Progress Bar -->
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -67,15 +59,17 @@
                 </LinearLayout>
 
                 <!-- Swap Button -->
-                <Button
+                <ImageButton
                     android:id="@+id/btnSwap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_gravity="bottom"
                     android:textColor="@color/white"
-                    android:text="⇄"
-                    android:textSize="18dp" />
+                    android:background="@null"
+                    android:src="@drawable/swap_32dp"/>
 
                 <!-- Target Language -->
                 <LinearLayout
@@ -139,17 +133,27 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:textSize="17sp"
-                    android:hint="Translation…"
-                    android:cursorVisible="false"
-                    android:focusable="false" />
+                    android:textIsSelectable="true"
+                    android:hint="Translation…" />
             </ScrollView>
 
+            <!-- Progress Bar -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/translateButton"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone" />
+
             <!-- Translate Button -->
-            <Button
+            <ImageButton
                 android:id="@+id/translateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Translate"
+                android:src="@drawable/translate_48dp"
+                android:background="@drawable/rounded_button"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/scroll_output" />
 

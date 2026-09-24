@@ -19,10 +19,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etvResult: EditText
     private lateinit var etvInput: EditText
     private lateinit var progressBar: ProgressBar
-    private lateinit var translateButton: Button
+    private lateinit var translateButton: ImageButton
     private lateinit var spinnerSource: Spinner
     private lateinit var spinnerTarget: Spinner
-    private lateinit var btnSwap: Button
+    private lateinit var btnSwap: ImageButton
     private lateinit var etvCustomSource: EditText
     private lateinit var etvCustomTarget: EditText
 
@@ -87,11 +87,15 @@ class MainActivity : AppCompatActivity() {
         // Default selections (auto / German)
         spinnerSource.setSelection(0)   // auto
         spinnerTarget.setSelection(1)  // de-DE
+        btnSwap.isEnabled = false      // disabled while auto is active
+        btnSwap.imageAlpha = if (btnSwap.isEnabled) 255 else 128
 
         // Show/hide custom input when "Other" is selected
         spinnerSource.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 etvCustomSource.visibility = if (LANGUAGES_SRC[pos] == "other-src") View.VISIBLE else View.GONE
+                btnSwap.isEnabled = LANGUAGES_SRC[pos] != "auto"
+                btnSwap.imageAlpha = if (btnSwap.isEnabled) 255 else 128
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
@@ -103,24 +107,42 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // Swap button
+        // Swap button — swaps values, not positions, to handle different list lengths
         btnSwap.setOnClickListener {
             val srcPos = spinnerSource.selectedItemPosition
-            val tgtPos = spinnerTarget.selectedItemPosition
-
-            val tempLang = LANGUAGES_SRC[srcPos]
-            spinnerSource.setSelection(tgtPos)
-            spinnerTarget.setSelection(srcPos)
-
-            // Swap custom values too
-            if (tempLang == "other-src") {
-                etvCustomTarget.setText(etvCustomSource.text.toString())
+            if (LANGUAGES_SRC[srcPos] == "auto") {
+                Toast.makeText(this, "Cannot swap: source is set to Auto Detect", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            if (LANGUAGES_TARGET[tgtPos] == "other-tgt") {
-                etvCustomTarget.visibility = View.VISIBLE
-            } else {
+
+            // Capture current values BEFORE changing anything
+            val srcVal = getSourceLang()
+            val tgtVal = getTargetLang()
+
+            // Set target to the source value — find matching index in target list
+            val newTgtPos = LANGUAGES_TARGET.indexOf(srcVal)
+            if (newTgtPos >= 0) {
+                spinnerTarget.setSelection(newTgtPos)
                 etvCustomTarget.visibility = View.GONE
+            } else {
+                spinnerTarget.setSelection(LANGUAGES_TARGET.indexOf("other-tgt"))
+                etvCustomTarget.setText(srcVal)
+                etvCustomTarget.visibility = View.VISIBLE
             }
+
+            // Set source to the target value — find matching index in source list
+            val newSrcPos = LANGUAGES_SRC.indexOf(tgtVal)
+            if (newSrcPos >= 0) {
+                spinnerSource.setSelection(newSrcPos)
+                etvCustomSource.visibility = View.GONE
+            } else {
+                spinnerSource.setSelection(LANGUAGES_SRC.indexOf("other-src"))
+                etvCustomSource.setText(tgtVal)
+                etvCustomSource.visibility = View.VISIBLE
+            }
+
+            btnSwap.isEnabled = LANGUAGES_SRC[spinnerSource.selectedItemPosition] != "auto"
+            btnSwap.imageAlpha = if (btnSwap.isEnabled) 255 else 128
         }
 
         translateButton.setOnClickListener { processTranslationRequest() }
@@ -156,7 +178,6 @@ class MainActivity : AppCompatActivity() {
             try {
                 withContext(Dispatchers.Main) {
                     progressBar.visibility = ProgressBar.VISIBLE
-                    etvResult.text = Editable.Factory.getInstance().newEditable("Loading model…")
                 }
 
                 val smolLMInstance = SmolLM()
@@ -171,7 +192,6 @@ class MainActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.Main) {
                     progressBar.visibility = ProgressBar.GONE
-                    etvResult.text = Editable.Factory.getInstance().newEditable("✅ Model loaded.")
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -218,7 +238,6 @@ class MainActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     progressBar.visibility = ProgressBar.VISIBLE
                     progressBar.isIndeterminate = true
-                    etvResult.text = Editable.Factory.getInstance().newEditable("🔄 Translating…")
                     translateButton.isEnabled = false
                 }
 
