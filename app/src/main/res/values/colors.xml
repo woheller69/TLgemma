@@ -4,6 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="lightGrey">#DDDDDD</color>
     <color name="darkGrey">#999999</color>
-    <color name="colorAccent">#996750A4</color>
-    <color name="colorAccentDark">#ff6750A4</color>
+    <color name="colorAccent">#99A750A4</color>
+    <color name="colorAccentDark">#ffA750A4</color>
 </resources>

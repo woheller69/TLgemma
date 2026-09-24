@@ -6,6 +6,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import io.shubham0204.smollm.SmolLM
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        ThemeUtils.setStatusBarAppearance(this)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         tvResult = findViewById(R.id.tvResult)
         progressBar = findViewById(R.id.progressBar)
 
@@ -51,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 val smolLMInstance = SmolLM()
-                val params = SmolLM.InferenceParams(contextSize = 2048, storeChats = false, temperature = 0.2f)
+                val params = SmolLM.InferenceParams(contextSize = 2048, storeChats = false, temperature = 0.01f)
 
                 // Load the model (this may take 10-60 seconds depending on device)
                 smolLMInstance.load(modelFile.absolutePath, params)
