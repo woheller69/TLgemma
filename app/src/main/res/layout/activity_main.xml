@@ -4,160 +4,171 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:id="@+id/rootLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="12dp"
         tools:context="com.seemless.MainActivity">
 
-        <RelativeLayout
+        <!-- Language Row -->
+        <LinearLayout
+            android:id="@+id/langRow"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-            <!-- Language Selection Row -->
+            <!-- Source -->
             <LinearLayout
-                android:id="@+id/langRow"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_alignParentTop="true">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <!-- Source Language -->
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:text="Source"
+                    android:textSize="11sp"
+                    android:textColor="#666666"
+                    android:textStyle="bold"
+                    android:paddingBottom="2dp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Source"
-                        android:textSize="12sp"
-                        android:textColor="#555555"
-                        android:textStyle="bold" />
+                <Spinner
+                    android:id="@+id/spinnerSource"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:background="@android:drawable/btn_dropdown" />
 
-                    <Spinner
-                        android:id="@+id/spinnerSource"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@android:drawable/btn_dropdown" />
-
-                    <EditText
-                        android:id="@+id/etvCustomSource"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="e.g. de-DE"
-                        android:textSize="13sp"
-                        android:visibility="gone"
-                        android:inputType="text" />
-                </LinearLayout>
-
-                <!-- Swap Button -->
-                <ImageButton
-                    android:id="@+id/btnSwap"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/etvCustomSource"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_gravity="bottom"
-                    android:textColor="@color/white"
-                    android:background="@null"
-                    android:src="@drawable/swap_32dp"/>
-
-                <!-- Target Language -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Target"
-                        android:textSize="12sp"
-                        android:textColor="#555555"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerTarget"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@android:drawable/btn_dropdown" />
-
-                    <EditText
-                        android:id="@+id/etvCustomTarget"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="e.g. de-DE"
-                        android:textSize="13sp"
-                        android:visibility="gone"
-                        android:inputType="text" />
-                </LinearLayout>
-
+                    android:hint="e.g. de-DE"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:inputType="text" />
             </LinearLayout>
 
-            <!-- Input Area -->
-            <ScrollView
-                android:id="@+id/scroll_input"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_below="@id/langRow">
-
-                <EditText
-                    android:id="@+id/etvInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:textSize="17sp"
-                    android:hint="Enter text to translate…" />
-            </ScrollView>
-
-            <!-- Output Area -->
-            <ScrollView
-                android:id="@+id/scroll_output"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_below="@id/scroll_input">
-
-                <EditText
-                    android:id="@+id/etvResult"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:textSize="17sp"
-                    android:textIsSelectable="true"
-                    android:hint="Translation…" />
-            </ScrollView>
-
-            <!-- Progress Bar -->
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/translateButton"
-                android:layout_marginBottom="10dp"
-                android:visibility="gone" />
-
-            <!-- Translate Button -->
+            <!-- Swap -->
             <ImageButton
-                android:id="@+id/translateButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/translate_48dp"
-                android:background="@drawable/rounded_button"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/scroll_output" />
+                android:id="@+id/btnSwap"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/swap_32dp"
+                android:background="@null"
+                android:contentDescription="Swap languages" />
 
-        </RelativeLayout>
+            <!-- Target -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Target"
+                    android:textSize="11sp"
+                    android:textColor="#666666"
+                    android:textStyle="bold"
+                    android:paddingBottom="2dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerTarget"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:background="@android:drawable/btn_dropdown" />
+
+                <EditText
+                    android:id="@+id/etvCustomTarget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="e.g. de-DE"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:inputType="text" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Input Panel -->
+        <ScrollView
+            android:id="@+id/scroll_input"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#F5F5F5"
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/etvInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:hint="Enter text to translate…"
+                android:minHeight="120dp" />
+        </ScrollView>
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:clickable="true"
+            android:background="#E0E0E0" />
+
+        <!-- Output Panel -->
+        <ScrollView
+            android:id="@+id/scroll_output"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#FAFAFA"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/etvResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:textIsSelectable="true"
+                android:hint="Translation…"
+                android:minHeight="120dp"
+                android:focusable="false"
+                android:cursorVisible="false" />
+        </ScrollView>
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:visibility="gone"
+            android:layout_marginBottom="6dp" />
+
+        <!-- Translate Button -->
+        <ImageButton
+            android:id="@+id/translateButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/translate_48dp"
+            android:background="@drawable/rounded_button"
+            android:contentDescription="Translate" />
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
