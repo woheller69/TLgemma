@@ -22,29 +22,37 @@
             android:layout_height="0dp"
             android:layout_weight="1">
             <ScrollView
-                android:id="@+id/scrollView"
+                android:id="@+id/scroll_input"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-    >
-                <TextView
-                    android:id="@+id/tvResult"
+                android:layout_height="200dp">
+                <EditText
+                    android:id="@+id/etvInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:textSize="17sp" />
-
             </ScrollView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabCopy"
+            <ScrollView
+                android:id="@+id/scroll_output"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/scroll_input">
+                <EditText
+                    android:id="@+id/etvResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:textSize="17sp" />
+            </ScrollView>
+            <Button
+                android:id="@+id/translateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginBottom="10dp" />
+                android:text="Translate"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/scroll_output"/>
+
         </RelativeLayout>
 
     </LinearLayout>

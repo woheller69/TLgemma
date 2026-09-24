@@ -2,8 +2,11 @@ package com.seemless
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -16,8 +19,10 @@ import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var tvResult: TextView
+    private lateinit var etvResult: EditText
+    private lateinit var etvInput: EditText
     private lateinit var progressBar: ProgressBar
+    private lateinit var translateButton: Button
     private var smolLM: SmolLM? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,8 +30,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         ThemeUtils.setStatusBarAppearance(this)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        tvResult = findViewById(R.id.tvResult)
+        etvResult = findViewById(R.id.etvResult)
+        etvInput = findViewById(R.id.etvInput)
         progressBar = findViewById(R.id.progressBar)
+        translateButton = findViewById(R.id.translateButton)
+
+        translateButton.setOnClickListener(View.OnClickListener { view ->
+            processTranslationRequest()
+        })
 
         // Initialize progress bar state
         progressBar.isIndeterminate = true
@@ -50,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 // Show progress bar on main thread before starting
                 withContext(Dispatchers.Main) {
                     progressBar.visibility = ProgressBar.VISIBLE
-                    tvResult.text = "Loading model..."
+                    etvResult.text = Editable.Factory.getInstance().newEditable("Loading model...")
                 }
 
                 val smolLMInstance = SmolLM()
@@ -65,15 +76,15 @@ class MainActivity : AppCompatActivity() {
                 // Model loaded successfully - hide progress and trigger inference
                 withContext(Dispatchers.Main) {
                     progressBar.visibility = ProgressBar.GONE
-                    tvResult.text = "✅ Model loaded. Processing..."
-                    processTranslationRequest()
+                    etvResult.text = Editable.Factory.getInstance().newEditable("✅ Model loaded.")
+                    //processTranslationRequest()
                 }
 
             } catch (e: Exception) {
                 // Handle any error during loading
                 withContext(Dispatchers.Main) {
                     progressBar.visibility = ProgressBar.GONE
-                    tvResult.text = "❌ Error loading model:\n${e.message ?: "Unknown error"}"
+                    etvResult.text = Editable.Factory.getInstance().newEditable("❌ Error loading model:\n${e.message ?: "Unknown error"}")
                     Toast.makeText(
                         this@MainActivity,
                         "Failed to load model: ${e.message}",
@@ -87,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun processTranslationRequest() {
         val smolLM = this.smolLM ?: run {
-            tvResult.text = "❌ Model not initialized"
+            etvResult.text = Editable.Factory.getInstance().newEditable("❌ Model not initialized")
             return
         }
 
@@ -97,15 +108,17 @@ class MainActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     progressBar.visibility = ProgressBar.VISIBLE
                     progressBar.isIndeterminate = true
-                    tvResult.text = "🔄 Translating..."
+                    etvResult.text = Editable.Factory.getInstance().newEditable("🔄 Translating...")
                 }
+
+                val textToTranslate = etvInput.text.toString()
 
                 val requestJson = """
                     {
                         "type": "text",
                         "source_lang_code": "en",
                         "target_lang_code": "de-DE",
-                        "text": "This is a test."
+                        "text": "$textToTranslate"
                     }
                 """.trimIndent()
 
@@ -117,7 +130,7 @@ class MainActivity : AppCompatActivity() {
                             response += token
                             withContext(Dispatchers.Main) {
                                 progressBar.visibility = ProgressBar.GONE
-                                tvResult.text = response.ifEmpty { "⚠️ Empty response" }
+                                etvResult.text = Editable.Factory.getInstance().newEditable(response.ifEmpty { "⚠️ Empty response" })
                             }
 
                         }
@@ -131,7 +144,7 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     progressBar.visibility = ProgressBar.GONE
-                    tvResult.text = "❌ Error during inference:\n${e.message}"
+                    etvResult.text = Editable.Factory.getInstance().newEditable("❌ Error during inference:\n${e.message}")
                     Toast.makeText(
                         this@MainActivity,
                         "Inference failed: ${e.message}",
