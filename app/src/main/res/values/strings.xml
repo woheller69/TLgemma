@@ -3,5 +3,7 @@
     <string name="download_model">Download model</string>
     <string name="install_model">Install model</string>
     <string name="start">Start</string>
+    <string name="language_not_supported">TTS: Language not supported</string>
+    <string name="tts_init_failed">TTS: initialization failed</string>
 
 </resources>

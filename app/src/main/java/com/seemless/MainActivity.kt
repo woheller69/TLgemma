@@ -202,7 +202,7 @@ class MainActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     progressBar.visibility = ProgressBar.VISIBLE
                 }
-
+                smolLM?.close()
                 val smolLMInstance = SmolLM()
                 val params = SmolLM.InferenceParams(
                     contextSize = 2048,
@@ -335,6 +335,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         deinitTTS()
+        smolLM?.close()
         smolLM = null
     }
 
@@ -370,7 +371,7 @@ class MainActivity : AppCompatActivity() {
                     runOnUiThread {
                         Toast.makeText(
                             this,
-                            "Language not supported",
+                            getString(R.string.language_not_supported),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -380,7 +381,7 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     Toast.makeText(
                         this,
-                        "TTS initialization failed",
+                        getString(R.string.tts_init_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
