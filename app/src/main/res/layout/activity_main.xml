@@ -154,16 +154,42 @@
             android:indeterminateTint="@color/colorAccent"
             android:layout_marginBottom="6dp" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/translateButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="10dp"
-            android:backgroundTint="@color/colorAccent"
-            android:src="@drawable/translate_48dp"
-            android:contentDescription="Translate"
-            android:layout_marginBottom="10dp" />
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/inputButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="@color/colorAccent"
+                android:src="@drawable/mic_48dp"
+                android:contentDescription="Record"
+                android:layout_marginBottom="10dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/translateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="@color/colorAccent"
+                android:src="@drawable/translate_48dp"
+                android:contentDescription="Translate"
+                android:layout_marginBottom="10dp" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/ttsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="@color/colorAccent"
+                android:src="@drawable/voice_48dp"
+                android:contentDescription="TextToSpeech"
+                android:layout_marginBottom="10dp" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

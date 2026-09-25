@@ -2,9 +2,18 @@ package com.seemless
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognizerIntent
+import android.speech.tts.TextToSpeech
 import android.text.Editable
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ProgressBar
+import android.widget.Spinner
+import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +23,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.Locale
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,11 +32,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etvInput: EditText
     private lateinit var progressBar: ProgressBar
     private lateinit var translateButton: FloatingActionButton
+
+    private lateinit var ttsButton: FloatingActionButton
+    private lateinit var inputButton: FloatingActionButton
     private lateinit var spinnerSource: Spinner
     private lateinit var spinnerTarget: Spinner
     private lateinit var btnSwap: ImageButton
     private lateinit var etvCustomSource: EditText
     private lateinit var etvCustomTarget: EditText
+
+    private var tts: TextToSpeech? = null
 
     private var smolLM: SmolLM? = null
 
@@ -69,11 +85,16 @@ class MainActivity : AppCompatActivity() {
         etvInput = findViewById(R.id.etvInput)
         progressBar = findViewById(R.id.progressBar)
         translateButton = findViewById(R.id.translateButton)
+        inputButton = findViewById(R.id.inputButton)
+        ttsButton = findViewById(R.id.ttsButton)
         spinnerSource = findViewById(R.id.spinnerSource)
         spinnerTarget = findViewById(R.id.spinnerTarget)
         btnSwap = findViewById(R.id.btnSwap)
         etvCustomSource = findViewById(R.id.etvCustomSource)
         etvCustomTarget = findViewById(R.id.etvCustomTarget)
+
+        inputButton.setOnClickListener { view: View? -> openSpeechRecognizer() }
+        ttsButton.setOnClickListener { view: View? -> tts?.speak(etvResult.text, TextToSpeech.QUEUE_FLUSH, null, null) }
 
         // Populate spinners
         val srcAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, LANGUAGES_SRC).apply {
@@ -236,6 +257,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         etvResult.text.clear()
+        initTTS(Locale(getTargetLang()))
+
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 withContext(Dispatchers.Main) {
@@ -288,6 +311,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun openSpeechRecognizer() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        )
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, getSourceLang());
+
+        startActivityForResult(intent, 123)
+    }
+
     /** JSON-escape a string value for embedding inside a template literal. */
     private fun escapeJson(value: String): String {
         return value
@@ -300,6 +334,57 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        deinitTTS()
         smolLM = null
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 123) {
+            if (resultCode == RESULT_OK && data != null) {
+                val results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                if (results != null && results.size > 0) {
+                    val spokenText = results.get(0)
+                    runOnUiThread(Runnable { etvInput.setText(spokenText) })
+                }
+            } else {
+                runOnUiThread(Runnable { etvInput.setText("Speech recognition failed") })
+            }
+        }
+    }
+
+    private fun deinitTTS() {
+        if (tts != null) {
+            tts!!.stop()
+            tts!!.shutdown()
+        }
+    }
+
+    private fun initTTS(locale: Locale?) {
+        tts = TextToSpeech(this) { status: Int ->
+            if (status == TextToSpeech.SUCCESS) {
+                val result = tts!!.setLanguage(locale)
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    tts = null
+                    runOnUiThread {
+                        Toast.makeText(
+                            this,
+                            "Language not supported",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } else {
+                tts = null
+                runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        "TTS initialization failed",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 }
