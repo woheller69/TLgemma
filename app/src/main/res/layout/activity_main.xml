@@ -141,9 +141,7 @@
                 android:textIsSelectable="true"
                 android:inputType="textNoSuggestions|textMultiLine"
                 android:hint="Translation…"
-                android:minHeight="120dp"
-                android:focusable="false"
-                android:cursorVisible="false" />
+                android:minHeight="120dp" />
         </ScrollView>
 
         <!-- Progress Bar -->
@@ -152,18 +150,20 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:visibility="gone"
+            android:visibility="invisible"
+            android:indeterminateTint="@color/colorAccent"
             android:layout_marginBottom="6dp" />
 
-        <!-- Translate Button -->
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/translateButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="@color/colorAccent"
             android:src="@drawable/translate_48dp"
-            android:background="@drawable/rounded_button"
-            android:contentDescription="Translate" />
+            android:contentDescription="Translate"
+            android:layout_marginBottom="10dp" />
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

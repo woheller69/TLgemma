@@ -8,6 +8,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.shubham0204.smollm.SmolLM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etvResult: EditText
     private lateinit var etvInput: EditText
     private lateinit var progressBar: ProgressBar
-    private lateinit var translateButton: ImageButton
+    private lateinit var translateButton: FloatingActionButton
     private lateinit var spinnerSource: Spinner
     private lateinit var spinnerTarget: Spinner
     private lateinit var btnSwap: ImageButton
@@ -149,7 +150,7 @@ class MainActivity : AppCompatActivity() {
 
         // Init progress bar
         progressBar.isIndeterminate = true
-        progressBar.visibility = ProgressBar.GONE
+        progressBar.visibility = ProgressBar.INVISIBLE
 
         val modelFile = File(getExternalFilesDir(null), "model.gguf")
 
@@ -192,11 +193,11 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity.smolLM = smolLMInstance
 
                 withContext(Dispatchers.Main) {
-                    progressBar.visibility = ProgressBar.GONE
+                    progressBar.visibility = ProgressBar.INVISIBLE
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    progressBar.visibility = ProgressBar.GONE
+                    progressBar.visibility = ProgressBar.INVISIBLE
                     etvResult.text = Editable.Factory.getInstance().newEditable("❌ Error loading model:\n${e.message ?: "Unknown"}")
                     Toast.makeText(this@MainActivity, "Failed to load model: ${e.message}", Toast.LENGTH_LONG).show()
                 }
@@ -271,13 +272,13 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 withContext(Dispatchers.Main) {
-                    progressBar.visibility = ProgressBar.GONE
+                    progressBar.visibility = ProgressBar.INVISIBLE
                     translateButton.isEnabled = true
                 }
                 loadModelWithProgress()
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    progressBar.visibility = ProgressBar.GONE
+                    progressBar.visibility = ProgressBar.INVISIBLE
                     etvResult.text = Editable.Factory.getInstance().newEditable("❌ Error:\n${e.message}")
                     Toast.makeText(this@MainActivity, "Inference failed: ${e.message}", Toast.LENGTH_SHORT).show()
                     translateButton.isEnabled = true
