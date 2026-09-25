@@ -253,10 +253,17 @@ class MainActivity : AppCompatActivity() {
                 var response = ""
                 smolLM.getResponseAsFlow(requestJson).collect { token ->
                     response += token
+                    // Unescape JSON escape sequences in the FULL accumulated response
+                    val decoded = response
+                        .replace("\\\\", "\u0000")   // protect real backslashes
+                        .replace("\\n", "\n")        // \n → actual newline
+                        .replace("\\t", "\t")        // \t → tab
+                        .replace("\\r", "\r")        // \r → carriage return
+                        .replace("\u0000", "\\")     // restore real backslashes
+
                     withContext(Dispatchers.Main) {
-                        progressBar.visibility = ProgressBar.GONE
                         etvResult.text = Editable.Factory.getInstance().newEditable(
-                            response.ifEmpty { "⚠️ Empty response" }
+                            decoded.ifEmpty { "⚠️ Empty response" }
                         )
                     }
                 }
