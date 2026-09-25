@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        loadModelWithProgress(modelFile)
+        loadModelWithProgress()
     }
 
     /** Returns the resolved source language code. */
@@ -173,7 +173,8 @@ class MainActivity : AppCompatActivity() {
         return if (selected == "other-tgt") etvCustomTarget.text.toString().trim() else selected
     }
 
-    private fun loadModelWithProgress(modelFile: File) {
+    private fun loadModelWithProgress() {
+        val modelFile = File(getExternalFilesDir(null), "model.gguf")
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 withContext(Dispatchers.Main) {
@@ -233,6 +234,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        etvResult.text.clear()
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 withContext(Dispatchers.Main) {
@@ -272,6 +274,7 @@ class MainActivity : AppCompatActivity() {
                     progressBar.visibility = ProgressBar.GONE
                     translateButton.isEnabled = true
                 }
+                loadModelWithProgress()
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     progressBar.visibility = ProgressBar.GONE
