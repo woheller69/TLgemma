@@ -2,7 +2,7 @@
 
 > Translate any supported language pair directly on your Android device — no internet required, no data ever leaves your phone.
 
-Powered by **[TranslateGemma](https://huggingface.co/collections/google/translategemma)** and the **[SmolLM](https://github.com/shubham0204/SmolChat-Android)** inference engine.
+Powered by **[TranslateGemma](https://huggingface.co/collections/google/translategemma)** and the **[SmolLM](https://github.com/shubham0204/SmolChat-Android)** inference engine (based on **[llama.cpp](https://github.com/ggml-org/llama.cpp)**).
 
 ---
 
@@ -22,25 +22,6 @@ Powered by **[TranslateGemma](https://huggingface.co/collections/google/translat
 Source: `auto`, English (US), German, French, Spanish, Italian, Japanese, Chinese (Simplified), Russian, Portuguese (PT & BR), or **custom**.
 
 Target: English (US), German, French, Spanish, Italian, Japanese, Chinese (Simplified), Russian, Portuguese (PT & BR), or **custom**.
-
----
-
-## 🏗 Architecture
-
-```
-┌─────────────────┐      ┌──────────────────┐      ┌──────────────┐
-│  Android UI     │  →   │  SmolLM Engine   │  →   │ Translate-   │
-│  (Kotlin)       │      │  (Apache 2.0)    │      │ Gemma GGUF   │
-└─────────────────┘      └──────────────────┘      └──────────────┘
-```
-
-| Component                  | License | Source |
-|----------------------------|---|---|
-| SmolLM inference engine    | Apache 2.0 | [SmolChat-Android](https://github.com/shubham0204/SmolChat-Android) © shubham0204 |
-| TranslateGemma model       | Google Research | [translate-gemma](https://huggingface.co/collections/google/translategemma) |
-| TLgemma app (this project) | GPL 3.0 | — |
-
-The app is a derivative of SmolChat-Android's inference pipeline, adapted specifically for TranslateGemma's JSON request/response protocol.
 
 ---
 
@@ -75,16 +56,6 @@ Once the model is in place, tap **Start** to launch the translator.
 
 ---
 
-### Third-party notices
-
-**SmolChat-Android** — Apache License 2.0
-
-> Portions of this app's inference logic are derived from [SmolChat-Android](https://github.com/shubham0204/SmolChat-Android), copyright © shubham0204, used under the Apache License 2.0. See `LICENSE` or <http://www.apache.org/licenses/LICENSE-2.0> for full terms.
-
-**TranslateGemma** — Google Research model weights (see Hugging Face for specific weight license)
-
----
-
 ## 🐛 Troubleshooting
 
 | Issue | Possible Fix |
@@ -97,8 +68,9 @@ Once the model is in place, tap **Start** to launch the translator.
 
 ## 🙏 Acknowledgements
 
-- **[Google Research](https://huggingface.co/collections/google/translategemma)** — TranslateGemma models
-- **[shubham0204](https://github.com/shubham0204/SmolChat-Android)** — SmolLM Android inference engine (Apache 2.0)
-- **[mradermacher](https://huggingface.co/mradermacher)** — Quantized TranslateGemma GGUF model weights
+- **[Google Research](https://huggingface.co/collections/google/translategemma)** — TranslateGemma models (Gemma license)
+- **[shubham0204](https://github.com/shubham0204/SmolChat-Android)** — SmolLM Android inference engine (Apache 2.0 license)
+- **[mradermacher](https://huggingface.co/mradermacher)** — Quantized TranslateGemma GGUF model weights (Gemma license)
+- **[llama.cpp](https://github.com/ggml-org/llama.cpp)** — LLM inference in C/C++ (MIT license)
 
 ---
