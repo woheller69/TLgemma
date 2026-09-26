@@ -13,7 +13,7 @@ Powered by **[TranslateGemma](https://huggingface.co/collections/google/translat
 | Feature                   | Description                                                                                  |
 |---------------------------|----------------------------------------------------------------------------------------------|
 | **100% offline**          | All inference runs locally via GGUF on-device model execution                                |
-| **Privacy-first**         | Zero network calls — your text never leaves the device                                       |
+| **Privacy-first**         | Zero network calls, no internet permission — your text never leaves the device                      |
 | **Auto-detect source**    | Choose "auto" to let the model guess the input language, or pick a specific one manually     |
 | **Swap languages**        | One tap to reverse source ↔ target with full custom-language support                         |
 | **Custom language codes** | Select "Other" on either side and type any IETF BCP-47 code                                  |
