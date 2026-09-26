@@ -4,6 +4,8 @@
 
 Powered by **[TranslateGemma](https://huggingface.co/collections/google/translategemma)** and the **[SmolLM](https://github.com/shubham0204/SmolChat-Android)** inference engine (based on **[llama.cpp](https://github.com/ggml-org/llama.cpp)**).
 
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" height="350"/> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" height="350"/>
+
 ---
 
 ## ✨ Features
