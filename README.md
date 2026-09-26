@@ -8,14 +8,16 @@ Powered by **[TranslateGemma](https://huggingface.co/collections/google/translat
 
 ## ✨ Features
 
-| Feature | Description |
-|---|---|
-| 📱 **100% offline** | All inference runs locally via GGUF on-device model execution |
-| 🔒 **Privacy-first** | Zero network calls — your text never leaves the device |
-| 🌍 **Auto-detect source** | Choose "auto" to let the model guess the input language, or pick a specific one manually |
-| 🔄 **Swap languages** | One tap to reverse source ↔ target with full custom-language support |
-| 🎨 **Custom language codes** | Select "Other" on either side and type any IETF BCP-47 code |
-| 🌙 **System theme** | Follows your device's light/dark setting automatically |
+| Feature                   | Description                                                                                  |
+|---------------------------|----------------------------------------------------------------------------------------------|
+| **100% offline**          | All inference runs locally via GGUF on-device model execution                                |
+| **Privacy-first**         | Zero network calls — your text never leaves the device                                       |
+| **Auto-detect source**    | Choose "auto" to let the model guess the input language, or pick a specific one manually     |
+| **Swap languages**        | One tap to reverse source ↔ target with full custom-language support                         |
+| **Custom language codes** | Select "Other" on either side and type any IETF BCP-47 code                                  |
+| **Voice input**           | Install Whisper+ from F-Droid for this feature or any other voice input that supports intent |
+| **Voice output**          | Via system text-to-speech. It is recommended to use SherpaTTS from F-Droid                   |
+| **System theme**          | Follows your device's light/dark setting automatically                                       |
 
 ### Supported Languages
 
@@ -52,7 +54,9 @@ Once the model is in place, tap **Start** to launch the translator.
 2. Choose a **Source language** (or leave on *Auto Detect*).
 3. Choose a **Target language**.
 4. Tap the **Swap** button (↔) to reverse languages.
-5. Tap **Translate** and wait for results — output streams token by token in real time.
+5. Input your text via keybord or tap **Microphone** button
+6. Tap **Translate** and wait for results — output streams token by token in real time.
+7. Tap **Speak** for voice output
 
 ---
 

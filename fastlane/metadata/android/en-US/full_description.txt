@@ -1,0 +1,5 @@
+TLgemma — On-Device Language Translation
+
+Translate any supported language pair directly on your Android device
+- no internet required, no data ever leaves your phone
+- based on TranslateGemma

@@ -78,6 +78,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/start"
+                android:backgroundTint="@color/colorAccent"
                 android:visibility="gone"
                 android:textSize="22dp"
                 android:textAllCaps="true"
