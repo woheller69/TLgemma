@@ -1,5 +1,6 @@
 package com.seemless
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -354,7 +355,11 @@ class MainActivity : AppCompatActivity() {
         )
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, getSourceLang());
 
-        startActivityForResult(intent, 123)
+        try {
+            startActivityForResult(intent, 123)
+        } catch (_: ActivityNotFoundException) {
+            Toast.makeText(this, getString(R.string.install_whisper), Toast.LENGTH_LONG).show()
+        }
     }
 
     /** JSON-escape a string value for embedding inside a template literal. */

@@ -5,5 +5,6 @@
     <string name="start">Start</string>
     <string name="language_not_supported">TTS: Language not supported</string>
     <string name="tts_init_failed">TTS: initialization failed</string>
+    <string name="install_whisper">Install Whisper+</string>
 
 </resources>
