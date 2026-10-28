@@ -239,7 +239,7 @@ class MainActivity : AppCompatActivity() {
                 smolLM?.close()
                 val smolLMInstance = SmolLM()
                 val params = SmolLM.InferenceParams(
-                    contextSize = 2048,
+                    contextSize = 4096,
                     storeChats = false,
                     temperature = 0.01f
                 )
