@@ -1,0 +1,1 @@
+Fix crash if voice input (e.g. Whisper+) missing
